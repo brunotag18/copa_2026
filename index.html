@@ -8,6 +8,9 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="supported-color-schemes" content="dark">
 <title>Copa do Mundo 2026 — Horário de Brasília</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   /* ============ COPA 2026 BRAND IDENTITY ============
      Inspired by the official "We Are 26" brand system: bold geometric typography,
@@ -53,9 +56,12 @@
 --shadow: 0 10px 32px rgba(0,0,0,0.5);
 --shadow-gold: 0 8px 24px rgba(212, 163, 50, 0.15);
 
-/* System font stacks that work everywhere — iOS, Android, Windows, macOS */
---font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial Black", system-ui, sans-serif;
---font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+/* Web fonts loaded via Google Fonts — identical rendering on every browser/OS.
+   Bebas Neue: condensed display font for headers and stats (close to FIFA's brand).
+   Inter: clean modern sans-serif for body text. Both fall back to system fonts
+   if the web fonts fail to load (offline, blocked CDN, etc.). */
+--font-display: "Bebas Neue", -apple-system, BlinkMacSystemFont, "Arial Black", Impact, sans-serif;
+--font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 ```
 
 }
@@ -69,18 +75,37 @@
   }
   html { background: #0a0a0a; }
   body {
-  font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, “Helvetica Neue”, system-ui, sans-serif;
+  font-family: “Inter”, -apple-system, BlinkMacSystemFont, “Segoe UI”, system-ui, sans-serif;
   background: #0a0a0a;
   color: var(–text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
   line-height: 1.5;
-  /* Subtle “26” texture in the background, very low opacity */
+  /* Subtle background gradient */
   background-image:
   radial-gradient(900px 500px at 0% 0%, rgba(212,163,50,0.08) 0%, transparent 50%),
   radial-gradient(900px 500px at 100% 100%, rgba(0,168,107,0.06) 0%, transparent 50%);
   background-attachment: fixed;
   }
+  /* Reset native iOS button styling so our colors aren’t overridden */
+  button, select, input, textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  }
+  /* iOS Safari renders <select> with native color when font-size < 16px,
+  and applies its own focus ring. Override both. */
+  select {
+  background-image: linear-gradient(45deg, transparent 50%, var(–text-dim) 50%),
+  linear-gradient(135deg, var(–text-dim) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 30px;
+  }
+  /* Ensure links and inline-styled elements use our gold, not iOS default blue */
+  a { color: var(–gold); }
   .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; }
 
 /* ============ HEADER WITH BRAND MARK ============ */
@@ -1003,9 +1028,11 @@ display: flex; align-items: center; gap: 10px;
 .sim-section-title::before {
 content: “”;
 display: inline-block;
-width: 10px; height: 10px;
+flex-shrink: 0;
+width: 4px;
+height: 14px;
 background: var(–gold);
-transform: rotate(45deg);
+border-radius: 2px;
 }
 
 .ko-phase { margin-bottom: 22px; }
