@@ -7,10 +7,11 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="supported-color-schemes" content="dark">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Copa do Mundo 2026 — Horário de Brasília</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   /* ============ COPA 2026 BRAND IDENTITY ============
      Inspired by the official "We Are 26" brand system: bold geometric typography,
@@ -56,12 +57,9 @@
 --shadow: 0 10px 32px rgba(0,0,0,0.5);
 --shadow-gold: 0 8px 24px rgba(212, 163, 50, 0.15);
 
-/* Web fonts loaded via Google Fonts — identical rendering on every browser/OS.
-   Bebas Neue: condensed display font for headers and stats (close to FIFA's brand).
-   Inter: clean modern sans-serif for body text. Both fall back to system fonts
-   if the web fonts fail to load (offline, blocked CDN, etc.). */
---font-display: "Bebas Neue", -apple-system, BlinkMacSystemFont, "Arial Black", Impact, sans-serif;
---font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+/* System font stack — robust on iOS, Android, Windows, macOS, Linux */
+--font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+--font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 ```
 
 }
@@ -93,10 +91,17 @@
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  }
+  /* iOS aggressively overrides button text color with system blue. Force ours. */
+  button {
+  color: var(–text);
   }
   /* iOS Safari renders <select> with native color when font-size < 16px,
   and applies its own focus ring. Override both. */
   select {
+  color: var(–text);
   background-image: linear-gradient(45deg, transparent 50%, var(–text-dim) 50%),
   linear-gradient(135deg, var(–text-dim) 50%, transparent 50%);
   background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
@@ -104,8 +109,9 @@
   background-repeat: no-repeat;
   padding-right: 30px;
   }
-  /* Ensure links and inline-styled elements use our gold, not iOS default blue */
-  a { color: var(–gold); }
+  /* iOS auto-detects “links” in plain text (phone numbers, dates, etc.) and styles them.
+  Force everything to inherit the parent color. */
+  a, a:link, a:visited, a:hover, a:active { color: var(–gold); }
   .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; }
 
 /* ============ HEADER WITH BRAND MARK ============ */
